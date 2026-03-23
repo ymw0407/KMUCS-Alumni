@@ -2,6 +2,8 @@
 import BaseLayout from './BaseLayout.astro';
 import { TagList } from '@/components/atoms/Tag';
 import { Badge } from '@/components/atoms/Badge';
+import { asset } from '@/lib/path';
+import siteConfig from '@/content/config/site.json';
 
 interface Props {
   title: string;
@@ -45,7 +47,22 @@ function formatDate(d: Date): string {
 }
 ---
 
-<BaseLayout title={title} description={subtitle}>
+<BaseLayout title={title} description={subtitle} ogImage={coverImage}>
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": title,
+    "description": subtitle || '',
+    "author": { "@type": "Person", "name": author },
+    "datePublished": publishedAt.toISOString(),
+    ...(updatedAt ? { "dateModified": updatedAt.toISOString() } : {}),
+    ...(coverImage ? { "image": new URL(asset(coverImage), siteConfig.siteUrl).toString() } : {}),
+    "publisher": {
+      "@type": "Organization",
+      "name": siteConfig.title,
+      "logo": { "@type": "ImageObject", "url": new URL(asset('/images/logo.svg'), siteConfig.siteUrl).toString() }
+    }
+  })} />
   <article class="page-section">
     <div class="narrow-container">
       <header class="article-header">

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kmucs-alumni.github.io/sitemap-index.xml
