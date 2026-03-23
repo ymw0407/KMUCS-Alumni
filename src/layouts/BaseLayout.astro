@@ -1,0 +1,224 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import { lightTheme } from '@/styles/theme.css';
+import { layout, main } from '@/components/templates/MainLayout';
+import { Header } from '@/components/organisms/Header';
+import { Footer } from '@/components/organisms/Footer';
+import siteConfig from '@/content/config/site.json';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  currentPath?: string;
+}
+
+const {
+  title,
+  description = siteConfig.description,
+  ogImage = siteConfig.ogImage,
+  currentPath = Astro.url.pathname,
+} = Astro.props;
+
+const pageTitle = title
+  ? `${title} | ${siteConfig.title}`
+  : siteConfig.title;
+---
+
+<!doctype html>
+<html lang="ko" class={lightTheme}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <meta name="generator" content={Astro.generator} />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={new URL(ogImage, siteConfig.siteUrl).toString()} />
+  <meta property="og:locale" content="ko_KR" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={pageTitle} />
+  <meta name="twitter:description" content={description} />
+
+  <title>{pageTitle}</title>
+
+  <!-- 국민체 @font-face (public/fonts/에 woff2 파일 필요) -->
+  <style>
+    @font-face {
+      font-family: 'Kookminche';
+      font-weight: 400;
+      font-display: swap;
+      src: url('/fonts/KMU-Regular.ttf') format('ttf');
+    }
+    @font-face {
+      font-family: 'Kookminche';
+      font-weight: 700;
+      font-display: swap;
+      src: url('/fonts/KMU-Bold.ttf') format('ttf');
+    }
+  </style>
+  <!-- Pretendard 웹폰트 (fallback) -->
+  <link
+    rel="stylesheet"
+    as="style"
+    crossorigin
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+  />
+
+  <link rel="icon" type="image/svg+xml" href="/images/logo.svg" />
+  <link rel="sitemap" href="/sitemap-index.xml" />
+  <ClientRouter />
+  <style is:global>
+    html {
+      overflow-y: scroll;
+    }
+    /* Loading overlay */
+    #loading-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: #ffffff;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+    #loading-screen.hide {
+      opacity: 0;
+      visibility: hidden;
+    }
+    #loading-screen .spinner {
+      width: 48px;
+      height: 48px;
+      position: relative;
+    }
+    #loading-screen .spinner circle {
+      fill: none;
+      stroke-width: 4;
+      stroke-linecap: round;
+    }
+    #loading-screen .spinner .track {
+      stroke: #E8F0FE;
+    }
+    #loading-screen .spinner .fill {
+      stroke: #1A5BC4;
+      stroke-dasharray: 90 150;
+      stroke-dashoffset: 0;
+      animation: spinner-rotate 1.4s linear infinite, spinner-dash 1.4s ease-in-out infinite;
+      transform-origin: center;
+    }
+    @keyframes spinner-rotate {
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes spinner-dash {
+      0% { stroke-dasharray: 1 150; stroke-dashoffset: 0; }
+      50% { stroke-dasharray: 90 150; stroke-dashoffset: -35; }
+      100% { stroke-dasharray: 90 150; stroke-dashoffset: -124; }
+    }
+    #loading-screen .loading-text {
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: #ADB5BD;
+      letter-spacing: 0.1em;
+      font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    }
+    #app-layout {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    #app-layout > main {
+      flex: 1;
+    }
+    .page-section {
+      padding-block: 4rem;
+    }
+    @media (max-width: 768px) {
+      .page-section { padding-block: 2.5rem; }
+    }
+    .page-container {
+      width: 100%;
+      max-width: 1200px;
+      margin-inline: auto;
+      padding-inline: 1rem;
+    }
+    @media (min-width: 768px) {
+      .page-container { padding-inline: 1.5rem; }
+    }
+    @media (min-width: 1024px) {
+      .page-container { padding-inline: 2rem; }
+    }
+    .narrow-container {
+      width: 100%;
+      max-width: 640px;
+      margin-inline: auto;
+      padding-inline: 1rem;
+    }
+    @media (min-width: 768px) {
+      .narrow-container { padding-inline: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div id="loading-screen" aria-hidden="true">
+    <svg class="spinner" viewBox="0 0 50 50">
+      <circle class="track" cx="25" cy="25" r="20" />
+      <circle class="fill" cx="25" cy="25" r="20" />
+    </svg>
+    <span class="loading-text">KMU-CS Alumni</span>
+  </div>
+  <div id="app-layout" class={layout}>
+    <Header
+      client:load
+      navigation={siteConfig.navigation}
+      currentPath={currentPath}
+    />
+    <main class={main}>
+      <slot />
+    </main>
+    <Footer
+      client:load
+      externalLinks={siteConfig.externalLinks}
+    />
+  </div>
+  <script>
+    function hideLoading() {
+      const el = document.getElementById('loading-screen');
+      if (el) el.classList.add('hide');
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', hideLoading);
+    } else {
+      hideLoading();
+    }
+
+    // View Transitions: swap 전에 현재 페이지의 CSS를 새 문서에 복사
+    document.addEventListener('astro:before-swap', (e) => {
+      // <link rel="stylesheet"> 보존
+      const links = document.head.querySelectorAll('link[rel="stylesheet"]');
+      links.forEach((link) => {
+        const href = link.getAttribute('href');
+        if (href && !e.newDocument.head.querySelector(`link[href="${href}"]`)) {
+          e.newDocument.head.appendChild(link.cloneNode(true));
+        }
+      });
+      // 동적 <style> 태그 보존 (vanilla-extract dev 모드)
+      const styles = document.head.querySelectorAll('style');
+      styles.forEach((s) => {
+        if (!s.textContent?.includes('@font-face') && !s.textContent?.includes('astro-island')) {
+          e.newDocument.head.appendChild(s.cloneNode(true));
+        }
+      });
+    });
+
+    document.addEventListener('astro:page-load', hideLoading);
+  </script>
+</body>
+</html>

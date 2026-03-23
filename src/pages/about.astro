@@ -1,0 +1,112 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { SectionHeader } from '@/components/molecules/SectionHeader';
+import { TimelineItem } from '@/components/molecules/TimelineItem';
+import { Text } from '@/components/atoms/Text';
+import timelineData from '@/content/config/timeline.json';
+---
+
+<BaseLayout title="소개" currentPath="/about">
+  <section class="page-section">
+    <div class="page-container">
+      <SectionHeader
+        client:load
+        label="About"
+        title="동문회 소개"
+        description="국민대학교 소프트웨어융합대학 졸업 동문회를 소개합니다."
+      />
+      <div class="about-content">
+        <Text client:load size="lg" color="default">
+          KMU-CS Alumni는 국민대학교 소프트웨어융합대학 졸업생들의 지속적인 네트워크 유지와
+          재학생 지원을 목적으로 설립되었습니다.
+        </Text>
+        <br />
+        <Text client:load size="lg" color="secondary">
+          전자계산학과로 시작해 컴퓨터공학부, 소프트웨어학부를 거쳐
+          현재의 소프트웨어융합대학에 이르기까지, 그리고 2022년 인공지능학부의
+          신설과 함께 수십 년의 역사 속에서 쌓아온 동문들의 경험과 지식을
+          나누고 후배들의 성장을 돕는 것이 동문회의 핵심 비전입니다.
+        </Text>
+        <br />
+        <Text client:load size="lg" color="secondary">
+          멘토링 프로그램, 정기 교류회, 홈커밍데이, 동문 장학금 등
+          다양한 활동을 통해 세대를 넘어 연결되는 커뮤니티를 만들어가고 있습니다.
+        </Text>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section vision-section">
+    <div class="page-container">
+      <SectionHeader
+        client:load
+        label="Vision"
+        title="우리의 비전"
+      />
+      <div class="vision-list">
+        <div class="vision-item">
+          <Text client:load size="xl" weight="semibold">연결</Text>
+          <Text client:load size="lg" color="secondary">
+            졸업 기수와 세대를 넘어, 소프트웨어융합대학의 모든 동문이 하나로 연결됩니다.
+          </Text>
+        </div>
+        <div class="vision-item">
+          <Text client:load size="xl" weight="semibold">성장</Text>
+          <Text client:load size="lg" color="secondary">
+            현업의 경험과 지식을 나누며 함께 성장하는 커뮤니티를 지향합니다.
+          </Text>
+        </div>
+        <div class="vision-item">
+          <Text client:load size="xl" weight="semibold">기여</Text>
+          <Text client:load size="lg" color="secondary">
+            모교와 후배들을 위한 멘토링, 장학금, 산학 협력으로 사회에 기여합니다.
+          </Text>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="page-container">
+      <SectionHeader
+        client:load
+        label="History"
+        title="연혁"
+        description="소프트웨어융합대학의 주요 발자취를 돌아봅니다."
+      />
+      <div class="timeline-wrapper">
+        {timelineData.map((item) => (
+          <TimelineItem
+            client:load
+            year={item.year}
+            title={item.title}
+            description={item.description}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .about-content {
+    max-width: 640px;
+  }
+  .vision-section {
+    background-color: #F8F9FA;
+  }
+  .vision-list {
+    max-width: 640px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .vision-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .timeline-wrapper {
+    max-width: 640px;
+  }
+</style>

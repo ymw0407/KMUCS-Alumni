@@ -1,0 +1,62 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { SectionHeader } from '@/components/molecules/SectionHeader';
+import { ArticleCard } from '@/components/molecules/ArticleCard';
+
+const allNews = await getCollection('news', ({ data }) => !data.draft);
+const sortedNews = allNews.sort(
+  (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()
+);
+---
+
+<BaseLayout title="뉴스" currentPath="/news">
+  <section class="page-section">
+    <div class="page-container">
+      <SectionHeader
+        client:load
+        label="News"
+        title="뉴스"
+        description="소프트웨어융합대학 관련 뉴스와 보도를 모아봅니다."
+      />
+
+      {sortedNews.length > 0 ? (
+        <div class="news-grid">
+          {sortedNews.map((item) => (
+            <ArticleCard
+              client:load
+              title={item.data.title}
+              excerpt={item.data.excerpt}
+              publishedAt={item.data.publishedAt.toISOString()}
+              author={item.data.author}
+              coverImage={item.data.coverImage}
+              tags={item.data.tags}
+              href={`/news/${item.id}`}
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="empty-msg">아직 등록된 뉴스가 없습니다.</p>
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .news-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .news-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+  }
+  .empty-msg {
+    text-align: center;
+    color: #868E96;
+    padding: 4rem 0;
+  }
+</style>

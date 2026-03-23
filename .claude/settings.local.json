@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm:*)",
+      "Bash(npm run:*)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:www.kookmin.ac.kr)",
+      "WebFetch(domain:noonnu.cc)",
+      "Bash(npx astro:*)",
+      "Bash(tr '>' '>\\\\n')",
+      "Bash(cat C:/Users/yunmi/development/kmucs-alumini/dist/_astro/theme.css.*.js)",
+      "Bash(tr ';' '\\\\n')",
+      "Bash(for f:*)",
+      "Bash(do if:*)",
+      "Bash(then echo:*)",
+      "Bash(fi)",
+      "Bash(done)",
+      "Bash(ls C:/Users/yunmi/development/kmucs-alumini/dist/_astro/*.css)"
+    ]
+  }
+}

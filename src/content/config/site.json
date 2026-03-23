@@ -1,0 +1,39 @@
+{
+  "title": "KMU-CS Alumni",
+  "description": "국민대학교 소프트웨어융합대학 졸업 동문들의 네트워크. 함께 성장하고, 다시 만나며, 미래를 그립니다.",
+  "siteUrl": "https://kmucs-alumni.github.io",
+  "ogImage": "/images/og-default.png",
+  "organization": {
+    "name": "KMU-CS Alumni",
+    "university": "국민대학교",
+    "college": "소프트웨어융합대학",
+    "foundedYear": 2020,
+    "email": "alumni@kookmin.ac.kr"
+  },
+  "externalLinks": [
+    {
+      "label": "국민대학교 홈페이지",
+      "url": "https://www.kookmin.ac.kr",
+      "description": "국민대학교 공식 홈페이지"
+    },
+    {
+      "label": "소프트웨어융합대학",
+      "url": "https://cs.kookmin.ac.kr",
+      "description": "소프트웨어융합대학 홈페이지"
+    },
+    {
+      "label": "국민대학교 총동문회",
+      "url": "https://alumni.kookmin.ac.kr",
+      "description": "국민대학교 총동문회"
+    }
+  ],
+  "social": [],
+  "navigation": [
+    { "label": "홈", "href": "/" },
+    { "label": "소식", "href": "/articles" },
+    { "label": "뉴스", "href": "/news" },
+    { "label": "소개", "href": "/about" },
+    { "label": "프로그램", "href": "/programs" },
+    { "label": "문의", "href": "/contact" }
+  ]
+}

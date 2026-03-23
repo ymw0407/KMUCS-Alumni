@@ -1,0 +1,34 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { Heading } from '@/components/atoms/Heading';
+import { Text } from '@/components/atoms/Text';
+import { Button } from '@/components/atoms/Button';
+---
+
+<BaseLayout title="페이지를 찾을 수 없습니다">
+  <section class="page-section">
+    <div class="page-container notfound-content">
+      <Heading client:load level={1} align="center">
+        404
+      </Heading>
+      <Text client:load size="xl" color="secondary" align="center">
+        요청하신 페이지를 찾을 수 없습니다.
+      </Text>
+      <div class="notfound-actions">
+        <Button client:load as="a" href="/" variant="primary" size="lg">
+          홈으로 돌아가기
+        </Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .notfound-content {
+    text-align: center;
+    padding-block: 6rem;
+  }
+  .notfound-actions {
+    margin-top: 2rem;
+  }
+</style>

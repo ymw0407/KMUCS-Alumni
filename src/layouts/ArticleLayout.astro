@@ -1,0 +1,262 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { TagList } from '@/components/atoms/Tag';
+import { Badge } from '@/components/atoms/Badge';
+
+interface Props {
+  title: string;
+  subtitle?: string;
+  publishedAt: Date;
+  updatedAt?: Date;
+  author: string;
+  authorRole?: string;
+  coverImage?: string;
+  tags: string[];
+  category?: string;
+}
+
+const {
+  title,
+  subtitle,
+  publishedAt,
+  updatedAt,
+  author,
+  authorRole,
+  coverImage,
+  tags,
+  category,
+} = Astro.props;
+
+const categoryLabels: Record<string, string> = {
+  notice: '공지',
+  interview: '인터뷰',
+  event: '행사',
+  story: '스토리',
+  column: '칼럼',
+  news: '뉴스',
+};
+
+function formatDate(d: Date): string {
+  return d.toLocaleDateString('ko-KR', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
+---
+
+<BaseLayout title={title} description={subtitle}>
+  <article class="page-section">
+    <div class="narrow-container">
+      <header class="article-header">
+        {category && (
+          <Badge client:load variant="primary" size="md">
+            {categoryLabels[category] ?? category}
+          </Badge>
+        )}
+        <h1 class="article-title">{title}</h1>
+        {subtitle && <p class="article-subtitle">{subtitle}</p>}
+        <div class="article-author-date">
+          <span>{author}{authorRole ? ` · ${authorRole}` : ''}</span>
+          <time datetime={publishedAt.toISOString()}>
+            {formatDate(publishedAt)}
+          </time>
+          {updatedAt && (
+            <span>(수정: {formatDate(updatedAt)})</span>
+          )}
+        </div>
+        {tags.length > 0 && (
+          <div class="article-tags-wrapper">
+            <TagList client:load tags={tags} />
+          </div>
+        )}
+      </header>
+
+      {coverImage && (
+        <img src={coverImage} alt={title} class="article-cover" />
+      )}
+
+      <div class="article-content">
+        <slot />
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style is:global>
+  .article-header {
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  .article-title {
+    font-family: 'Kookminche', 'Pretendard Variable', Pretendard, sans-serif;
+    font-size: 2.25rem;
+    font-weight: 800;
+    line-height: 1.35;
+    letter-spacing: -0.02em;
+    color: #212529;
+    margin-top: 1rem;
+    margin-bottom: 0.75rem;
+    word-break: keep-all;
+  }
+  @media (max-width: 768px) {
+    .article-title { font-size: 1.875rem; }
+  }
+  .article-subtitle {
+    font-size: 1.25rem;
+    color: #495057;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    word-break: keep-all;
+  }
+  .article-author-date {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #868E96;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .article-cover {
+    width: 100%;
+    max-width: 680px;
+    margin-inline: auto;
+    border-radius: 1rem;
+    margin-bottom: 2.5rem;
+    display: block;
+  }
+  .article-tags-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Article prose styles */
+  .article-content {
+    max-width: 680px;
+    margin-inline: auto;
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: #212529;
+    word-break: keep-all;
+  }
+  .article-content h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    font-family: 'Kookminche', 'Pretendard Variable', Pretendard, sans-serif;
+    line-height: 1.35;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+  }
+  .article-content h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    font-family: 'Kookminche', 'Pretendard Variable', Pretendard, sans-serif;
+    line-height: 1.35;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #E9ECEF;
+  }
+  .article-content h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    font-family: 'Kookminche', 'Pretendard Variable', Pretendard, sans-serif;
+    line-height: 1.35;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+  .article-content h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .article-content p {
+    margin-bottom: 1.25rem;
+  }
+  .article-content ul,
+  .article-content ol {
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+  }
+  .article-content li {
+    margin-bottom: 0.5rem;
+  }
+  .article-content li > ul,
+  .article-content li > ol {
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+  }
+  .article-content a {
+    color: #1A5BC4;
+    text-decoration: underline;
+    text-decoration-color: #9EBFF9;
+    text-underline-offset: 3px;
+    transition: text-decoration-color 0.15s ease;
+  }
+  .article-content a:hover {
+    text-decoration-color: #1A5BC4;
+  }
+  .article-content blockquote {
+    border-left: 3px solid #DEE2E6;
+    padding-left: 1rem;
+    margin-block: 1.25rem;
+    color: #495057;
+    font-style: normal;
+  }
+  .article-content code {
+    font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, monospace;
+    font-size: 0.9em;
+    background-color: #F1F3F5;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    color: #123F89;
+  }
+  .article-content pre {
+    background-color: #F8F9FA;
+    border: 1px solid #E9ECEF;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin-block: 1.25rem;
+    overflow-x: auto;
+    font-size: 0.875rem;
+    line-height: 1.7;
+  }
+  .article-content pre code {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    color: inherit;
+  }
+  .article-content img {
+    border-radius: 0.75rem;
+    margin-block: 1.25rem;
+  }
+  .article-content hr {
+    border: none;
+    border-top: 1px solid #DEE2E6;
+    margin-block: 2rem;
+  }
+  .article-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-block: 1.25rem;
+    font-size: 1rem;
+  }
+  .article-content th {
+    text-align: left;
+    font-weight: 600;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 2px solid #DEE2E6;
+    color: #495057;
+  }
+  .article-content td {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid #E9ECEF;
+  }
+  .article-content strong {
+    font-weight: 600;
+  }
+</style>

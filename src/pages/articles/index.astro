@@ -1,0 +1,99 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { SectionHeader } from '@/components/molecules/SectionHeader';
+import { ArticleCard } from '@/components/molecules/ArticleCard';
+
+const allArticles = await getCollection('articles', ({ data }) => !data.draft);
+const sortedArticles = allArticles.sort(
+  (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()
+);
+
+const allTags = [...new Set(sortedArticles.flatMap((a) => a.data.tags))].sort();
+---
+
+<BaseLayout title="소식" currentPath="/articles">
+  <section class="page-section">
+    <div class="page-container">
+      <SectionHeader
+        client:load
+        label="Articles"
+        title="소식"
+        description="동문회의 소식, 인터뷰, 행사 이야기를 모아봅니다."
+      />
+
+      {allTags.length > 0 && (
+        <div class="tag-filter">
+          <a href="/articles" class="tag-btn tag-btn--active">전체</a>
+          {allTags.map((tag) => (
+            <a href={`/articles/tags/${tag}`} class="tag-btn">#{tag}</a>
+          ))}
+        </div>
+      )}
+
+      {sortedArticles.length > 0 ? (
+        <div class="article-grid">
+          {sortedArticles.map((article) => (
+            <ArticleCard
+              client:load
+              title={article.data.title}
+              excerpt={article.data.excerpt}
+              publishedAt={article.data.publishedAt.toISOString()}
+              author={article.data.author}
+              coverImage={article.data.coverImage}
+              tags={article.data.tags}
+              category={article.data.category}
+              href={`/articles/${article.id}`}
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="empty-msg">아직 등록된 소식이 없습니다.</p>
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .tag-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+  }
+  .tag-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    background-color: #F1F3F5;
+    color: #495057;
+    text-decoration: none;
+    transition: background-color 0.15s ease;
+  }
+  .tag-btn:hover {
+    background-color: #DEE2E6;
+  }
+  .tag-btn--active {
+    background-color: #1A5BC4;
+    color: white;
+  }
+  .article-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .article-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+  }
+  .empty-msg {
+    text-align: center;
+    color: #868E96;
+    padding: 4rem 0;
+  }
+</style>

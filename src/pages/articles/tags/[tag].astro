@@ -1,0 +1,76 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { SectionHeader } from '@/components/molecules/SectionHeader';
+import { ArticleCard } from '@/components/molecules/ArticleCard';
+import { Button } from '@/components/atoms/Button';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('articles', ({ data }) => !data.draft);
+  const allTags = [...new Set(articles.flatMap((a) => a.data.tags))];
+
+  return allTags.map((tag) => ({
+    params: { tag },
+    props: {
+      tag,
+      articles: articles
+        .filter((a) => a.data.tags.includes(tag))
+        .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()),
+    },
+  }));
+}
+
+const { tag, articles } = Astro.props;
+---
+
+<BaseLayout title={`#${tag} 태그 소식`} currentPath="/articles">
+  <section class="page-section">
+    <div class="page-container">
+      <SectionHeader
+        client:load
+        label={`#${tag}`}
+        title={`"${tag}" 관련 소식`}
+        description={`${articles.length}개의 글이 있습니다.`}
+      />
+
+      <div class="back-link">
+        <Button client:load as="a" href="/articles" variant="ghost" size="sm">
+          ← 전체 목록으로
+        </Button>
+      </div>
+
+      <div class="article-grid">
+        {articles.map((article: any) => (
+          <ArticleCard
+            client:load
+            title={article.data.title}
+            excerpt={article.data.excerpt}
+            publishedAt={article.data.publishedAt.toISOString()}
+            author={article.data.author}
+            coverImage={article.data.coverImage}
+            tags={article.data.tags}
+            category={article.data.category}
+            href={`/articles/${article.id}`}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .back-link {
+    margin-bottom: 2rem;
+  }
+  .article-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .article-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+  }
+</style>

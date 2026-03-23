@@ -1,0 +1,45 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { SectionHeader } from '@/components/molecules/SectionHeader';
+import { ProgramCard } from '@/components/molecules/ProgramCard';
+import programsData from '@/content/config/programs.json';
+---
+
+<BaseLayout title="프로그램" currentPath="/programs">
+  <section class="page-section">
+    <div class="page-container">
+      <SectionHeader
+        client:load
+        label="Programs"
+        title="동문회 프로그램"
+        description="동문회가 운영하는 다양한 프로그램과 활동을 소개합니다."
+      />
+      <div class="program-grid">
+        {programsData.map((prog) => (
+          <ProgramCard
+            client:load
+            title={prog.title}
+            description={prog.description}
+            schedule={prog.schedule}
+            status={prog.status as 'active' | 'upcoming' | 'past'}
+            href={prog.href}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .program-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  @media (min-width: 640px) {
+    .program-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 1024px) {
+    .program-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>

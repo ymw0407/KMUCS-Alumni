@@ -1,0 +1,99 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { SectionHeader } from '@/components/molecules/SectionHeader';
+import { Text } from '@/components/atoms/Text';
+import siteConfig from '@/content/config/site.json';
+---
+
+<BaseLayout title="문의" currentPath="/contact">
+  <section class="page-section">
+    <div class="page-container">
+      <SectionHeader
+        client:load
+        label="Contact"
+        title="문의"
+        description="동문회에 대한 문의사항이 있으시면 아래 연락처로 연락해 주세요."
+      />
+
+      <div class="contact-content">
+        <div class="contact-card">
+          <Text client:load size="lg" weight="semibold">이메일</Text>
+          <Text client:load size="base" color="secondary">
+            {siteConfig.organization.email}
+          </Text>
+        </div>
+
+        <div>
+          <Text client:load size="xl" weight="semibold">관련 사이트</Text>
+          <div class="link-list">
+            {siteConfig.externalLinks.map((link) => (
+              <a
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="link-card"
+              >
+                <div>
+                  <div class="link-card-label">{link.label}</div>
+                  {link.description && (
+                    <div class="link-card-desc">{link.description}</div>
+                  )}
+                </div>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" opacity="0.4">
+                  <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" />
+                </svg>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-content {
+    max-width: 640px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .contact-card {
+    padding: 1.5rem;
+    border: 1px solid #E9ECEF;
+    border-radius: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .link-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+  .link-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    border: 1px solid #E9ECEF;
+    border-radius: 0.75rem;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .link-card:hover {
+    border-color: #1A5BC4;
+    box-shadow: 0 0 0 1px #1A5BC4;
+  }
+  .link-card-label {
+    font-weight: 600;
+    color: #212529;
+  }
+  .link-card-desc {
+    font-size: 0.875rem;
+    color: #868E96;
+    margin-top: 0.25rem;
+  }
+</style>

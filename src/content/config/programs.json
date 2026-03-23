@@ -1,0 +1,40 @@
+[
+  {
+    "id": "mentoring",
+    "title": "멘토링 프로그램",
+    "description": "졸업 동문이 재학생에게 진로, 취업, 기술 멘토링을 제공합니다. 현업의 생생한 경험을 나눌 수 있는 1:1 및 그룹 멘토링을 운영합니다.",
+    "schedule": "매 학기 운영",
+    "status": "active",
+    "href": "https://cs.kookmin.ac.kr"
+  },
+  {
+    "id": "networking",
+    "title": "동문 교류회",
+    "description": "졸업 기수와 세대를 넘어 동문들이 만나는 정기 네트워킹 행사입니다. 기술 세미나, 캐주얼 밋업 등 다양한 형태로 운영됩니다.",
+    "schedule": "연 2회",
+    "status": "active",
+    "href": "https://cs.kookmin.ac.kr"
+  },
+  {
+    "id": "homecoming",
+    "title": "홈커밍데이",
+    "description": "매년 가을, 모교를 방문하여 교수님과 후배들을 만나는 행사입니다. 학과 투어, 특별 강연, 만찬이 함께 진행됩니다.",
+    "schedule": "매년 10월",
+    "status": "active",
+    "href": "https://cs.kookmin.ac.kr"
+  },
+  {
+    "id": "scholarship",
+    "title": "동문 장학금",
+    "description": "동문회 기금으로 우수 재학생에게 장학금을 지원합니다.",
+    "status": "active",
+    "href": "https://cs.kookmin.ac.kr"
+  },
+  {
+    "id": "techtalks",
+    "title": "Tech Talk 시리즈",
+    "description": "현업 동문이 최신 기술 트렌드와 실무 경험을 공유하는 기술 세미나 시리즈입니다.",
+    "status": "upcoming",
+    "href": "https://cs.kookmin.ac.kr"
+  }
+]

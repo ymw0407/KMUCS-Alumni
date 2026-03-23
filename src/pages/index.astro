@@ -1,0 +1,262 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { Hero } from '@/components/organisms/Hero';
+import { SectionHeader } from '@/components/molecules/SectionHeader';
+import { ArticleCard } from '@/components/molecules/ArticleCard';
+import { ProgramCard } from '@/components/molecules/ProgramCard';
+import { TimelineItem } from '@/components/molecules/TimelineItem';
+import { Button } from '@/components/atoms/Button';
+
+import fs from 'node:fs';
+import path from 'node:path';
+import timelineData from '@/content/config/timeline.json';
+import programsData from '@/content/config/programs.json';
+import initiativesData from '@/content/config/initiatives.json';
+
+const allArticles = await getCollection('articles', ({ data }) => !data.draft);
+const latestArticles = allArticles
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
+  .slice(0, 3);
+
+const foundingYear = Math.min(...timelineData.map((t) => t.year));
+const historyYears = new Date().getFullYear() - foundingYear;
+
+const heroDir = path.join(process.cwd(), 'public/images/hero');
+const heroSlides = fs.existsSync(heroDir)
+  ? fs.readdirSync(heroDir)
+      .filter((f) => /\.(jpe?g|png|webp|avif)$/i.test(f))
+      .sort()
+      .map((f) => ({ image: `/images/hero/${f}`, alt: path.parse(f).name }))
+  : [];
+---
+
+<BaseLayout currentPath="/">
+  <Hero
+    client:load
+    label="KMU-CS Alumni"
+    title="함께 성장하고, 다시 만나며, 미래를 그립니다"
+    subtitle="국민대학교 소프트웨어융합대학 졸업 동문들의 네트워크. 세대를 넘어 연결되는 커뮤니티에 함께하세요."
+    primaryAction={{ label: '소식 보기', href: '/articles' }}
+    secondaryAction={{ label: '소개', href: '/about' }}
+    stats={[
+      { value: `${historyYears}`, label: '역사 (년)' },
+      { value: '5,000+', label: '졸업 동문' },
+      { value: '5', label: '주요 프로그램' },
+    ]}
+    slides={heroSlides}
+  />
+
+  <section class="page-section">
+    <div class="page-container">
+      <SectionHeader
+        client:load
+        label="Latest"
+        title="최신 소식"
+        description="동문회의 최신 소식과 이야기를 확인하세요."
+      />
+      <div class="article-grid">
+        {latestArticles.map((article) => (
+          <ArticleCard
+            client:load
+            title={article.data.title}
+            excerpt={article.data.excerpt}
+            publishedAt={article.data.publishedAt.toISOString()}
+            author={article.data.author}
+            coverImage={article.data.coverImage}
+            tags={article.data.tags}
+            category={article.data.category}
+            href={`/articles/${article.id}`}
+          />
+        ))}
+      </div>
+      {latestArticles.length > 0 && (
+        <div class="section-center-actions">
+          <Button client:load as="a" href="/articles" variant="secondary" size="md">
+            모든 소식 보기
+          </Button>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class="page-section timeline-section">
+    <div class="page-container">
+      <SectionHeader
+        client:load
+        label="History"
+        title="소프트웨어융합대학의 발자취"
+        description="전자계산학과에서 소프트웨어융합대학까지, 40년의 역사를 돌아봅니다."
+      />
+      <div class="timeline-wrapper">
+        {timelineData.map((item) => (
+          <TimelineItem
+            client:load
+            year={item.year}
+            title={item.title}
+            description={item.description}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="page-container">
+      <SectionHeader
+        client:load
+        label="Programs"
+        title="주요 프로그램"
+        description="동문회가 운영하는 다양한 프로그램과 활동을 소개합니다."
+      />
+      <div class="program-grid">
+        {programsData.map((prog) => (
+          <ProgramCard
+            client:load
+            title={prog.title}
+            description={prog.description}
+            schedule={prog.schedule}
+            status={prog.status as 'active' | 'upcoming' | 'past'}
+            href={prog.href}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section initiatives-section">
+    <div class="page-container">
+      <SectionHeader
+        client:load
+        label="Initiatives"
+        title="대학 주요 사업"
+        description="소프트웨어융합대학에서 진행 중인 정부 지원 사업 및 주요 프로젝트입니다."
+      />
+      <div class="program-grid">
+        {initiativesData.map((item) => (
+          <ProgramCard
+            client:load
+            title={item.title}
+            description={item.description}
+            schedule={item.schedule}
+            status={item.status as 'active' | 'upcoming' | 'past'}
+            href={item.href}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="page-container">
+      <div class="cta-box">
+        <SectionHeader
+          client:load
+          label="Join Us"
+          title="동문 네트워크에 함께하세요"
+          description="멘토링, 교류회, 홈커밍데이 등 다양한 활동에 참여할 수 있습니다."
+          align="center"
+          showDivider={false}
+        />
+        <div class="cta-actions">
+          <Button client:load as="a" href="/contact" size="lg">
+            문의하기
+          </Button>
+          <Button client:load as="a" href="/programs" variant="secondary" size="lg">
+            프로그램 알아보기
+          </Button>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-section {
+    padding-block: 4rem;
+  }
+  @media (max-width: 768px) {
+    .page-section { padding-block: 2.5rem; }
+  }
+
+  .page-container {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+  @media (min-width: 768px) {
+    .page-container { padding-inline: 1.5rem; }
+  }
+  @media (min-width: 1024px) {
+    .page-container { padding-inline: 2rem; }
+  }
+
+  .article-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .article-grid > :global(:nth-child(n+2)) {
+    display: none;
+  }
+  @media (min-width: 768px) {
+    .article-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .article-grid > :global(:nth-child(n+2)) {
+      display: block;
+    }
+    .article-grid > :global(:nth-child(n+4)) {
+      display: none;
+    }
+  }
+
+  .section-center-actions {
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  .timeline-section {
+    background-color: #F8F9FA;
+  }
+
+  .timeline-wrapper {
+    max-width: 640px;
+  }
+
+  .program-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  @media (min-width: 640px) {
+    .program-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 1024px) {
+    .program-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .initiatives-section {
+    background-color: #F8F9FA;
+  }
+
+  .cta-box {
+    background-color: #E8F0FE;
+    border-radius: 1rem;
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+  @media (max-width: 768px) {
+    .cta-box { padding: 2rem 1rem; }
+  }
+
+  .cta-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+  }
+</style>
