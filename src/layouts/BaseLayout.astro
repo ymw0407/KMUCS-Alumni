@@ -48,22 +48,7 @@ const pageTitle = title
 
   <title>{pageTitle}</title>
 
-  <!-- 국민체 @font-face -->
-  <style set:html={`
-    @font-face {
-      font-family: 'Kookminche';
-      font-weight: 400;
-      font-display: swap;
-      src: url('${asset('/fonts/KMU-Regular.ttf')}') format('truetype');
-    }
-    @font-face {
-      font-family: 'Kookminche';
-      font-weight: 700;
-      font-display: swap;
-      src: url('${asset('/fonts/KMU-Bold.ttf')}') format('truetype');
-    }
-  `} />
-  <!-- Pretendard 웹폰트 (fallback) -->
+  <!-- Pretendard 웹폰트 -->
   <link
     rel="stylesheet"
     as="style"
