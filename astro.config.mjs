@@ -6,9 +6,10 @@ import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
 
 const isDev = process.argv.includes('dev');
 
+// base path는 src/lib/path.ts의 BASE와 동기화할 것
 export default defineConfig({
   site: 'https://kmucs-alumni.github.io',
-  // base: '/kmucs-alumni/', // GitHub Pages 서브디렉토리 배포 시 활성화
+  // base: '/kmucs-alumni/', // src/lib/path.ts의 BASE도 함께 변경
   output: 'static',
   integrations: [
     react(),

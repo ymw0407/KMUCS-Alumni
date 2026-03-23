@@ -4,6 +4,7 @@ import { lightTheme } from '@/styles/theme.css';
 import { layout, main } from '@/components/templates/MainLayout';
 import { Header } from '@/components/organisms/Header';
 import { Footer } from '@/components/organisms/Footer';
+import { url, asset } from '@/lib/path';
 import siteConfig from '@/content/config/site.json';
 
 interface Props {
@@ -47,21 +48,21 @@ const pageTitle = title
 
   <title>{pageTitle}</title>
 
-  <!-- 국민체 @font-face (public/fonts/에 woff2 파일 필요) -->
-  <style>
+  <!-- 국민체 @font-face -->
+  <style set:html={`
     @font-face {
       font-family: 'Kookminche';
       font-weight: 400;
       font-display: swap;
-      src: url('/fonts/KMU-Regular.ttf') format('ttf');
+      src: url('${asset('/fonts/KMU-Regular.ttf')}') format('truetype');
     }
     @font-face {
       font-family: 'Kookminche';
       font-weight: 700;
       font-display: swap;
-      src: url('/fonts/KMU-Bold.ttf') format('ttf');
+      src: url('${asset('/fonts/KMU-Bold.ttf')}') format('truetype');
     }
-  </style>
+  `} />
   <!-- Pretendard 웹폰트 (fallback) -->
   <link
     rel="stylesheet"
@@ -70,7 +71,7 @@ const pageTitle = title
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
   />
 
-  <link rel="icon" type="image/svg+xml" href="/images/logo.svg" />
+  <link rel="icon" type="image/svg+xml" href={asset('/images/logo.svg')} />
   <link rel="sitemap" href="/sitemap-index.xml" />
   <ClientRouter />
   <style is:global>
@@ -176,7 +177,7 @@ const pageTitle = title
   <div id="app-layout" class={layout}>
     <Header
       client:load
-      navigation={siteConfig.navigation}
+      navigation={siteConfig.navigation.map((n: any) => ({ ...n, href: url(n.href) }))}
       currentPath={currentPath}
     />
     <main class={main}>

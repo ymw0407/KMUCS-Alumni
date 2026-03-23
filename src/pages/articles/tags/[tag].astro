@@ -4,6 +4,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import { SectionHeader } from '@/components/molecules/SectionHeader';
 import { ArticleCard } from '@/components/molecules/ArticleCard';
 import { Button } from '@/components/atoms/Button';
+import { url } from '@/lib/path';
 
 export async function getStaticPaths() {
   const articles = await getCollection('articles', ({ data }) => !data.draft);
@@ -34,7 +35,7 @@ const { tag, articles } = Astro.props;
       />
 
       <div class="back-link">
-        <Button client:load as="a" href="/articles" variant="ghost" size="sm">
+        <Button client:load as="a" href={url('/articles')} variant="ghost" size="sm">
           ← 전체 목록으로
         </Button>
       </div>
@@ -50,7 +51,7 @@ const { tag, articles } = Astro.props;
             coverImage={article.data.coverImage}
             tags={article.data.tags}
             category={article.data.category}
-            href={`/articles/${article.id}`}
+            href={url(`/articles/${article.id}`)}
           />
         ))}
       </div>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { url, asset } from '@/lib/path';
 import {
   header,
   headerInner,
@@ -37,8 +38,8 @@ export function Header({ navigation, currentPath = '/' }: HeaderProps) {
     <>
       <header className={header}>
         <div className={headerInner}>
-          <a href="/" className={logo}>
-            <img src="/images/logo.svg" alt="KMU-CS Alumni" className={logoImage} />
+          <a href={url('/')} className={logo}>
+            <img src={asset('/images/logo.svg')} alt="KMU-CS Alumni" className={logoImage} />
             <span>KMU-CS Alumni</span>
           </a>
 

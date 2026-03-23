@@ -1,3 +1,4 @@
+import { url, asset } from '@/lib/path';
 import {
   footer,
   footerInner,
@@ -28,7 +29,7 @@ export function Footer({ externalLinks = [] }: FooterProps) {
         <div className={footerGrid}>
           <div>
             <div className={footerLogoSection}>
-              <img src="/images/logo.svg" alt="KMU-CS Alumni" className={footerLogo} />
+              <img src={asset('/images/logo.svg')} alt="KMU-CS Alumni" className={footerLogo} />
               <div className={footerTitle}>KMU-CS Alumni</div>
             </div>
             <p className={footerDescription}>
@@ -40,10 +41,10 @@ export function Footer({ externalLinks = [] }: FooterProps) {
           <div>
             <div className={footerLinkTitle}>바로가기</div>
             <div className={footerLinkGroup}>
-              <a href="/articles" className={footerLink}>소식</a>
-              <a href="/about" className={footerLink}>소개</a>
-              <a href="/programs" className={footerLink}>프로그램</a>
-              <a href="/contact" className={footerLink}>문의</a>
+              <a href={url('/articles')} className={footerLink}>소식</a>
+              <a href={url('/about')} className={footerLink}>소개</a>
+              <a href={url('/programs')} className={footerLink}>프로그램</a>
+              <a href={url('/contact')} className={footerLink}>문의</a>
             </div>
           </div>
 

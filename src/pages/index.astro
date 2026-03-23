@@ -8,6 +8,7 @@ import { ProgramCard } from '@/components/molecules/ProgramCard';
 import { TimelineItem } from '@/components/molecules/TimelineItem';
 import { Button } from '@/components/atoms/Button';
 
+import { url, asset } from '@/lib/path';
 import fs from 'node:fs';
 import path from 'node:path';
 import timelineData from '@/content/config/timeline.json';
@@ -27,7 +28,7 @@ const heroSlides = fs.existsSync(heroDir)
   ? fs.readdirSync(heroDir)
       .filter((f) => /\.(jpe?g|png|webp|avif)$/i.test(f))
       .sort()
-      .map((f) => ({ image: `/images/hero/${f}`, alt: path.parse(f).name }))
+      .map((f) => ({ image: asset(`/images/hero/${f}`), alt: path.parse(f).name }))
   : [];
 ---
 
@@ -37,8 +38,8 @@ const heroSlides = fs.existsSync(heroDir)
     label="KMU-CS Alumni"
     title="함께 성장하고, 다시 만나며, 미래를 그립니다"
     subtitle="국민대학교 소프트웨어융합대학 졸업 동문들의 네트워크. 세대를 넘어 연결되는 커뮤니티에 함께하세요."
-    primaryAction={{ label: '소식 보기', href: '/articles' }}
-    secondaryAction={{ label: '소개', href: '/about' }}
+    primaryAction={{ label: '소식 보기', href: url('/articles') }}
+    secondaryAction={{ label: '소개', href: url('/about') }}
     stats={[
       { value: `${historyYears}`, label: '역사 (년)' },
       { value: '5,000+', label: '졸업 동문' },
@@ -66,13 +67,13 @@ const heroSlides = fs.existsSync(heroDir)
             coverImage={article.data.coverImage}
             tags={article.data.tags}
             category={article.data.category}
-            href={`/articles/${article.id}`}
+            href={url(`/articles/${article.id}`)}
           />
         ))}
       </div>
       {latestArticles.length > 0 && (
         <div class="section-center-actions">
-          <Button client:load as="a" href="/articles" variant="secondary" size="md">
+          <Button client:load as="a" href={url('/articles')} variant="secondary" size="md">
             모든 소식 보기
           </Button>
         </div>
@@ -159,10 +160,10 @@ const heroSlides = fs.existsSync(heroDir)
           showDivider={false}
         />
         <div class="cta-actions">
-          <Button client:load as="a" href="/contact" size="lg">
+          <Button client:load as="a" href={url('/contact')} size="lg">
             문의하기
           </Button>
-          <Button client:load as="a" href="/programs" variant="secondary" size="lg">
+          <Button client:load as="a" href={url('/programs')} variant="secondary" size="lg">
             프로그램 알아보기
           </Button>
         </div>

@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { SectionHeader } from '@/components/molecules/SectionHeader';
 import { ArticleCard } from '@/components/molecules/ArticleCard';
+import { url } from '@/lib/path';
 
 const allNews = await getCollection('news', ({ data }) => !data.draft);
 const sortedNews = allNews.sort(
@@ -31,7 +32,7 @@ const sortedNews = allNews.sort(
               author={item.data.author}
               coverImage={item.data.coverImage}
               tags={item.data.tags}
-              href={`/news/${item.id}`}
+              href={url(`/news/${item.id}`)}
             />
           ))}
         </div>

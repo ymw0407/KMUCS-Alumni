@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { SectionHeader } from '@/components/molecules/SectionHeader';
 import { ArticleCard } from '@/components/molecules/ArticleCard';
+import { url } from '@/lib/path';
 
 const allArticles = await getCollection('articles', ({ data }) => !data.draft);
 const sortedArticles = allArticles.sort(
@@ -24,9 +25,9 @@ const allTags = [...new Set(sortedArticles.flatMap((a) => a.data.tags))].sort();
 
       {allTags.length > 0 && (
         <div class="tag-filter">
-          <a href="/articles" class="tag-btn tag-btn--active">전체</a>
+          <a href={url('/articles')} class="tag-btn tag-btn--active">전체</a>
           {allTags.map((tag) => (
-            <a href={`/articles/tags/${tag}`} class="tag-btn">#{tag}</a>
+            <a href={url(`/articles/tags/${tag}`)} class="tag-btn">#{tag}</a>
           ))}
         </div>
       )}
@@ -43,7 +44,7 @@ const allTags = [...new Set(sortedArticles.flatMap((a) => a.data.tags))].sort();
               coverImage={article.data.coverImage}
               tags={article.data.tags}
               category={article.data.category}
-              href={`/articles/${article.id}`}
+              href={url(`/articles/${article.id}`)}
             />
           ))}
         </div>
