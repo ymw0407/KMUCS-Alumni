@@ -8,20 +8,6 @@
     "href": "https://software.kookmin.ac.kr"
   },
   {
-    "id": "linc3",
-    "title": "LINC 3.0 사업",
-    "description": "교육부 3단계 산학연협력 선도대학 육성사업으로, 미래차 특화모델 구축 및 산학공동기술개발을 수행합니다.",
-    "schedule": "2022 ~ 2027",
-    "status": "active",
-    "href": "https://linc.kookmin.ac.kr"
-  },
-  {
-    "id": "bk21",
-    "title": "4단계 BK21 사업",
-    "description": "자율주행 xEV 혁신인재, 정보보안, 데이터사이언스 등 대학원 교육연구단을 운영합니다.",
-    "status": "active"
-  },
-  {
     "id": "ai-star-fellowship",
     "title": "AI스타펠로우십 지원사업",
     "description": "과기정통부 지원 AI 핵심 인재 양성 사업으로, AI 분야 석·박사 연구 펠로우십을 운영합니다.",

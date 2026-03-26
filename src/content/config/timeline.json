@@ -1,8 +1,8 @@
 [
   {
-    "year": 1981,
-    "title": "전자계산학과 설립",
-    "description": "국민대학교 전자계산학과 신설",
+    "year": 1994,
+    "title": "전산학과 출범",
+    "description": "국민대학교 전산학과 신설",
     "category": "founding"
   },
   {
@@ -12,9 +12,9 @@
     "category": "growth"
   },
   {
-    "year": 2015,
-    "title": "소프트웨어학부 출범",
-    "description": "소프트웨어 중심대학 사업 선정과 함께 소프트웨어학부 신설",
+    "year": 2016,
+    "title": "소프트웨어중심대학 선정",
+    "description": "정보통신기획평가원 소프트웨어중심대학 사업에 선정",
     "category": "achievement"
   },
   {
@@ -27,6 +27,12 @@
     "year": 2022,
     "title": "인공지능학부 신설",
     "description": "소프트웨어융합대학 내 인공지능학부 출범",
+    "category": "achievement"
+  },
+  {
+    "year": 2025,
+    "title": "소프트웨어중심대학 재선정 및 AI스타펠로우십 선정",
+    "description": "소프트웨어중심대학 사업 재선정 및 AI스타펠로우십 지원사업 선정",
     "category": "achievement"
   }
 ]
