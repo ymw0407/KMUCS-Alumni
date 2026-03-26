@@ -1,4 +1,5 @@
 import { Badge } from '@/components/atoms/Badge';
+import { asset } from '@/lib/path';
 import {
   card,
   cardImage,
@@ -56,7 +57,7 @@ export function ArticleCard({
     <article className={`${card}${className ? ` ${className}` : ''}`}>
       <a href={href} className={cardLink}>
         {coverImage ? (
-          <img src={coverImage} alt={title} className={cardImage} loading="lazy" />
+          <img src={asset(coverImage)} alt={title} className={cardImage} loading="lazy" />
         ) : (
           <div className={cardImagePlaceholder} aria-hidden="true">
             KMU
