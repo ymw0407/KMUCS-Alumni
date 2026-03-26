@@ -100,7 +100,3 @@ sourceUrl: "https://..."  # 선택
 | `src/content/config/programs.json` | 동문회 프로그램 목록 |
 | `src/content/config/initiatives.json` | 대학 주요 사업 목록 |
 | `src/content/config/timeline.json` | 연혁 타임라인 |
-
-## 라이선스
-
-MIT
