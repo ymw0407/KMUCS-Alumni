@@ -18,7 +18,8 @@
       "Bash(done)",
       "Bash(ls C:/Users/yunmi/development/kmucs-alumini/dist/_astro/*.css)",
       "Bash(ls C:/Users/yunmi/development/kmucs-alumini/dist/*/index.html)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(file:*)"
     ]
   }
 }
