@@ -42,7 +42,7 @@ export const shadow = {
 
 /** 콘텐츠 영역 최대 너비 */
 export const contentWidth = {
-  narrow: '640px',   // 기사 본문
+  narrow: '850px',   // 기사 본문
   medium: '768px',   // 리스트
   wide: '1024px',    // 일반 페이지
   full: '1200px',    // 풀 레이아웃
