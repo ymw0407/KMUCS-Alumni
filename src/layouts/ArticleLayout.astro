@@ -15,6 +15,7 @@ interface Props {
   coverImage?: string;
   tags: string[];
   category?: string;
+  tagBasePath?: string;
 }
 
 const {
@@ -27,6 +28,7 @@ const {
   coverImage,
   tags,
   category,
+  tagBasePath,
 } = Astro.props;
 
 const categoryLabels: Record<string, string> = {
@@ -84,7 +86,7 @@ function formatDate(d: Date): string {
         </div>
         {tags.length > 0 && (
           <div class="article-tags-wrapper">
-            <TagList client:load tags={tags} />
+            <TagList client:load tags={tags} basePath={tagBasePath} />
           </div>
         )}
       </header>

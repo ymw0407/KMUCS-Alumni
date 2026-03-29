@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import ArticleLayout from '@/layouts/ArticleLayout.astro';
+import { url } from '@/lib/path';
 
 export async function getStaticPaths() {
   const news = await getCollection('news', ({ data }) => !data.draft);
@@ -24,6 +25,7 @@ const isNewsletter = item.data.tags.includes('뉴스레터');
   authorRole={item.data.authorRole}
   coverImage={isNewsletter ? undefined : item.data.coverImage}
   tags={item.data.tags}
+  tagBasePath={url('/news/tags')}
 >
   {isNewsletter ? (
     <div class="newsletter-content">

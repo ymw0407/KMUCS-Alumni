@@ -1,0 +1,76 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { SectionHeader } from '@/components/molecules/SectionHeader';
+import { ArticleCard } from '@/components/molecules/ArticleCard';
+import { Button } from '@/components/atoms/Button';
+import { url } from '@/lib/path';
+
+export async function getStaticPaths() {
+  const news = await getCollection('news', ({ data }) => !data.draft);
+  const allTags = [...new Set(news.flatMap((n) => n.data.tags))];
+
+  return allTags.map((tag) => ({
+    params: { tag },
+    props: {
+      tag,
+      news: news
+        .filter((n) => n.data.tags.includes(tag))
+        .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()),
+    },
+  }));
+}
+
+const { tag, news } = Astro.props;
+---
+
+<BaseLayout title={`#${tag} 태그 뉴스`} currentPath="/news">
+  <section class="page-section">
+    <div class="page-container">
+      <SectionHeader
+        client:load
+        label={`#${tag}`}
+        title={`"${tag}" 관련 뉴스`}
+        description={`${news.length}개의 뉴스가 있습니다.`}
+      />
+
+      <div class="back-link">
+        <Button client:load as="a" href={url('/news')} variant="ghost" size="sm">
+          ← 전체 목록으로
+        </Button>
+      </div>
+
+      <div class="news-grid">
+        {news.map((item: any) => (
+          <ArticleCard
+            client:load
+            title={item.data.title}
+            excerpt={item.data.excerpt}
+            publishedAt={item.data.publishedAt.toISOString()}
+            author={item.data.author}
+            coverImage={item.data.coverImage}
+            tags={item.data.tags}
+            href={url(`/news/${item.id}`)}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .back-link {
+    margin-bottom: 2rem;
+  }
+  .news-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .news-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+  }
+</style>
