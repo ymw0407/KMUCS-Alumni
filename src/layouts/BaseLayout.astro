@@ -28,7 +28,7 @@ const pageTitle = title
 const ogImageUrl = ogImage.startsWith('http')
   ? ogImage
   : new URL(asset(ogImage), siteConfig.siteUrl).toString();
-const canonicalUrl = new URL(url(currentPath), siteConfig.siteUrl).toString();
+const canonicalUrl = new URL(Astro.url.pathname, siteConfig.siteUrl).toString();
 ---
 
 <!doctype html>
@@ -64,7 +64,7 @@ const canonicalUrl = new URL(url(currentPath), siteConfig.siteUrl).toString();
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": siteConfig.title,
-    "url": siteConfig.siteUrl,
+    "url": new URL(url('/'), siteConfig.siteUrl).toString(),
     "logo": new URL(asset('/images/logo.svg'), siteConfig.siteUrl).toString(),
     "description": siteConfig.description,
     "contactPoint": {
@@ -83,7 +83,7 @@ const canonicalUrl = new URL(url(currentPath), siteConfig.siteUrl).toString();
   />
 
   <link rel="icon" type="image/svg+xml" href={asset('/images/logo.svg')} />
-  <link rel="sitemap" href="/sitemap-index.xml" />
+  <link rel="sitemap" href={asset('/sitemap-index.xml')} />
   <ClientRouter />
   <style is:global>
     html {

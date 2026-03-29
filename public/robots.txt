@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://kmucs-alumni.github.io/sitemap-index.xml
+Sitemap: https://ymw0407.github.io/KMUCS-Alumni/sitemap-index.xml
