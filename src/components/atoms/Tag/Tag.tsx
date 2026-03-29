@@ -1,4 +1,5 @@
 import { tag, tagList } from './Tag.css';
+import { url } from '@/lib/path';
 
 interface TagProps {
   label: string;
@@ -26,11 +27,12 @@ interface TagListProps {
   className?: string;
 }
 
-export function TagList({ tags, basePath = '/articles/tags', className }: TagListProps) {
+export function TagList({ tags, basePath, className }: TagListProps) {
+  const resolvedBase = basePath ?? url('/articles/tags');
   return (
     <div className={`${tagList}${className ? ` ${className}` : ''}`}>
       {tags.map((t) => (
-        <Tag key={t} label={t} href={`${basePath}/${t}`} />
+        <Tag key={t} label={t} href={`${resolvedBase}/${t}`} />
       ))}
     </div>
   );
