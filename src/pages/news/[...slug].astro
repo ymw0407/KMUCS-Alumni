@@ -12,6 +12,7 @@ export async function getStaticPaths() {
 
 const { item } = Astro.props;
 const { Content } = await render(item);
+const isNewsletter = item.data.tags.includes('뉴스레터');
 ---
 
 <ArticleLayout
@@ -21,8 +22,37 @@ const { Content } = await render(item);
   updatedAt={item.data.updatedAt}
   author={item.data.author}
   authorRole={item.data.authorRole}
-  coverImage={item.data.coverImage}
+  coverImage={isNewsletter ? undefined : item.data.coverImage}
   tags={item.data.tags}
 >
-  <Content />
+  {isNewsletter ? (
+    <div class="newsletter-content">
+      <Content />
+    </div>
+  ) : (
+    <Content />
+  )}
 </ArticleLayout>
+
+<style is:global>
+  .newsletter-content {
+    font-size: 0;
+    line-height: 0;
+  }
+  .newsletter-content p {
+    margin: 0 !important;
+    padding: 0;
+    font-size: 0;
+    line-height: 0;
+  }
+  .newsletter-content img {
+    border-radius: 0 !important;
+    margin: 0 !important;
+    display: block;
+    width: 100%;
+  }
+  .newsletter-content a {
+    display: block;
+    line-height: 0;
+  }
+</style>
