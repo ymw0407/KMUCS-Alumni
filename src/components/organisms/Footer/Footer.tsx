@@ -68,7 +68,7 @@ export function Footer({ externalLinks = [] }: FooterProps) {
 
         <div className={footerBottom}>
           <span>&copy; {new Date().getFullYear()} KMU-CS Alumni</span>
-          <span>alumni@kookmin.ac.kr</span>
+          <span>alumni@cs.kookmin.ac.kr</span>
         </div>
       </div>
     </footer>

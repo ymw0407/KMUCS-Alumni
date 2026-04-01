@@ -8,7 +8,7 @@
     "university": "국민대학교",
     "college": "소프트웨어융합대학",
     "foundedYear": 2020,
-    "email": "alumni@kookmin.ac.kr"
+    "email": "alumni@cs.kookmin.ac.kr"
   },
   "externalLinks": [
     {
@@ -30,9 +30,9 @@
   "social": [],
   "navigation": [
     { "label": "홈", "href": "/" },
+    { "label": "소개", "href": "/about" },
     { "label": "소식", "href": "/articles" },
     { "label": "뉴스", "href": "/news" },
-    { "label": "소개", "href": "/about" },
     { "label": "프로그램", "href": "/programs" },
     { "label": "문의", "href": "/contact" }
   ]
